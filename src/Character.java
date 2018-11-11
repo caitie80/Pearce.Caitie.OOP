@@ -1,8 +1,10 @@
 public class Character {
-    private Stat[] abilities = new Stat[6];
+    private Stat[] abilities;
+    private String name;
 
     public Character(){
-
+        abilities = new Stat[6];
+        name = "";
     }
 
     public void setAbility(int index,String name, int score){
@@ -13,5 +15,13 @@ public class Character {
 
     public Stat getAbility(int index){
         return abilities[index];
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

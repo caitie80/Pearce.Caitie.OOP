@@ -1,14 +1,51 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.EventHandler;
 import java.util.Random;
 
-public class CharacterSheetBuilder {
+public class CharacterSheetBuilder implements ActionListener {
     public static void main(String[] args) {
         MyMenu gui = new MyMenu();
+        Character character = new Character();
 
-        Stat one = new Stat();
-        one.setStat(generateStat());
-        System.out.println(one.toString());
+        gui.create.addActionListener(e -> {
+            System.out.println("create pressed");
+
+            gui.createSelected();
+    });
+
+        gui.submitScore.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(gui.clicks<gui.abilities.length){
+                    character.setAbility(gui.clicks, gui.abilities[gui.clicks], (int) gui.statScores.getSelectedItem());
+                    System.out.println(character.getAbility(gui.clicks).toString());
+                    gui.clicks++;
+                    gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
+                    if(gui.clicks<gui.abilities.length) {
+                        gui.ability.setText(gui.abilities[gui.clicks]);
+
+                    }
+                    else{
+                        System.out.println("all done");
+                        gui.scoresDone();
+                    }
+                    gui.repaint();
+                }
+            }
+        });
+
+        gui.name.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                character.setName(gui.charName.getText());
+                System.out.println(character.getName());
+            }
+        });
     }
+
 
 
     public static int generateStat(){
@@ -34,6 +71,12 @@ public class CharacterSheetBuilder {
         }
 
         int stat = (rolls[0] + rolls[1] + rolls[2]);
+        System.out.println(stat);
         return stat;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }
