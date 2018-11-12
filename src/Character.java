@@ -1,6 +1,7 @@
 public class Character {
     private Stat[] abilities;
     private String name;
+    private Race race;
 
     public Character(){
         abilities = new Stat[6];

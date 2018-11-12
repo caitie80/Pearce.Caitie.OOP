@@ -7,14 +7,20 @@ import java.util.Random;
 
 public class CharacterSheetBuilder implements ActionListener {
     public static void main(String[] args) {
-        MyMenu gui = new MyMenu();
+        Race elf = new Race("dwarf");
+
+        System.out.println(elf.toString());
+
+        /*MyMenu gui = new MyMenu();
         Character character = new Character();
+
+
 
         gui.create.addActionListener(e -> {
             System.out.println("create pressed");
 
             gui.createSelected();
-    });
+        });
 
         gui.submitScore.addActionListener(new ActionListener() {
             @Override
@@ -37,13 +43,13 @@ public class CharacterSheetBuilder implements ActionListener {
             }
         });
 
-        gui.name.addActionListener(new ActionListener() {
+        gui.details.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 character.setName(gui.charName.getText());
                 System.out.println(character.getName());
             }
-        });
+        }); */
     }
 
 

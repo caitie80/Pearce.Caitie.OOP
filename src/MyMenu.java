@@ -1,18 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
 
-public class MyMenu extends JFrame implements ActionListener{
+public class MyMenu extends JFrame{
 
 
     JTextField charName;
-    JButton name;
-    JLabel nameChar;
+    JButton details;
+    JLabel name;
+
 
     JComboBox<Integer> statScores;
-    Integer[] scores = new Integer[6];
     JButton submitScore;
     JLabel ability;
     String[] abilities = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
@@ -34,8 +32,8 @@ public class MyMenu extends JFrame implements ActionListener{
         //create components
         submitScore = new JButton("Confirm");
 
-        //name components
-        name = new JButton("Name Character");
+        //details components
+        details = new JButton("Name Character");
         charName = new JTextField(20);
 
         create = new MyButton("Create a character");
@@ -49,21 +47,10 @@ public class MyMenu extends JFrame implements ActionListener{
         });
         this.add(load);
 
-        /*ability = new JLabel(abilities[0]);
-        ability.setText(abilities[0]);*/
-
-
-
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
-
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-       System.out.println("idk what was pressed");
-    }
 
     public void createSelected(){
         clicks=0;
@@ -99,13 +86,13 @@ public class MyMenu extends JFrame implements ActionListener{
         getContentPane().removeAll();
         this.setLayout(new FlowLayout());
 
-        name.setPreferredSize(new Dimension(350,30));
+        details.setPreferredSize(new Dimension(350,30));
 
-        nameChar = new JLabel("Name:");
+        name = new JLabel("Name:");
 
-        add(nameChar);
-        add(charName);
         add(name);
+        add(charName);
+        add(details);
         this.repaint();
         this.setVisible(true);
     }
