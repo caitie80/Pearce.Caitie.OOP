@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class MyMenu extends JFrame{
 
@@ -8,6 +7,9 @@ public class MyMenu extends JFrame{
     JTextField charName;
     JButton details;
     JLabel name;
+    JLabel race;
+    JComboBox raceBox;
+    String[] raceChoices = {"Elf","Human","Dwarf"};
 
 
     JComboBox<Integer> statScores;
@@ -29,12 +31,13 @@ public class MyMenu extends JFrame{
         this.setSize(450,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //create components
+        //Ability components
         submitScore = new JButton("Confirm");
 
         //details components
         details = new JButton("Name Character");
-        charName = new JTextField(20);
+        charName = new JTextField(35);
+        raceBox = new JComboBox(raceChoices);
 
         create = new MyButton("Create a character");
         this.add(create);
@@ -52,7 +55,7 @@ public class MyMenu extends JFrame{
     }
 
 
-    public void createSelected(){
+    public void createCharacter(){
         clicks=0;
         this.setTitle("Create a character");
         this.getContentPane().removeAll();
@@ -82,16 +85,22 @@ public class MyMenu extends JFrame{
 
     }
 
-    public void scoresDone(){
-        getContentPane().removeAll();
+    public void addDetails(){
+        this.getContentPane().removeAll();
         this.setLayout(new FlowLayout());
 
         details.setPreferredSize(new Dimension(350,30));
 
         name = new JLabel("Name:");
 
+        race = new JLabel("Character Race:");
+
+        raceBox.setPreferredSize(charName.getPreferredSize());
+
         add(name);
         add(charName);
+        add(race);
+        add(raceBox);
         add(details);
         this.repaint();
         this.setVisible(true);

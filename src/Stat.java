@@ -1,12 +1,12 @@
 public class Stat {
-    private int stat;
+    private int score;
     private int modifier;
     private String name;
 
-    public Stat() {
-        stat = 0;
+    public Stat(String name) {
+        score = 0;
         modifier = 0;
-        name="";
+        this.name=name;
     }
 
     public void setName(String name) {
@@ -14,12 +14,15 @@ public class Stat {
     }
 
     public void setStat(int stat) {
-        this.stat = stat;
-        this.modifier = (stat-10)/2;
+        this.score = stat;
+        double modHolder = ((float)stat-10)/2;
+        if(modHolder<0)
+            modHolder = Math.floor(modHolder);
+        this.modifier = (int) modHolder;
     }
 
     public int getStat() {
-        return stat;
+        return score;
     }
 
     public String getName() {
@@ -28,8 +31,8 @@ public class Stat {
 
     @Override
     public String toString() {
-        String statInfo = String.format("Name: %s\nScore: %d\nModifier: %d",
-                this.name, this.stat, this.modifier);
+        String statInfo = String.format("Name: %s\nScore: %d\nModifier: %d\n",
+                this.name, this.score, this.modifier);
         return statInfo;
     }
 

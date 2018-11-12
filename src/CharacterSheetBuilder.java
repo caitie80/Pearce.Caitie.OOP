@@ -1,17 +1,11 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.EventHandler;
 import java.util.Random;
 
 public class CharacterSheetBuilder implements ActionListener {
     public static void main(String[] args) {
-        Race elf = new Race("dwarf");
-
-        System.out.println(elf.toString());
-
-        /*MyMenu gui = new MyMenu();
+        MyMenu gui = new MyMenu();
         Character character = new Character();
 
 
@@ -19,37 +13,68 @@ public class CharacterSheetBuilder implements ActionListener {
         gui.create.addActionListener(e -> {
             System.out.println("create pressed");
 
-            gui.createSelected();
+            gui.createCharacter();
         });
 
+        //Button for assigning ability scores
         gui.submitScore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(gui.clicks<gui.abilities.length){
-                    character.setAbility(gui.clicks, gui.abilities[gui.clicks], (int) gui.statScores.getSelectedItem());
-                    System.out.println(character.getAbility(gui.clicks).toString());
-                    gui.clicks++;
-                    gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
-                    if(gui.clicks<gui.abilities.length) {
-                        gui.ability.setText(gui.abilities[gui.clicks]);
+               if(gui.clicks<6) {
+                    switch (gui.clicks) {
 
+                        case 0:
+                            character.setStrength((int) gui.statScores.getSelectedItem());
+                            gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
+                            break;
+
+                        case 1:
+                            character.setDex((int) gui.statScores.getSelectedItem());
+                            gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
+                            break;
+
+                        case 2:
+                            character.setCon((int) gui.statScores.getSelectedItem());
+                            gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
+                            break;
+
+                        case 3:
+                            character.setIntel((int) gui.statScores.getSelectedItem());
+                            gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
+                            break;
+
+                        case 4:
+                            character.setWis((int) gui.statScores.getSelectedItem());
+                            gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
+                            break;
+
+                        case 5:
+                            character.setCha((int) gui.statScores.getSelectedItem());
+                            gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
+                            System.out.println("scores done");
+                            gui.addDetails();
+                            break;
                     }
-                    else{
-                        System.out.println("all done");
-                        gui.scoresDone();
-                    }
-                    gui.repaint();
+                   if(gui.clicks<5) {
+                       gui.ability.setText(gui.abilities[gui.clicks + 1]);
+                       gui.repaint();
+                   }
+                   gui.clicks++;
                 }
             }
+
         });
 
         gui.details.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 character.setName(gui.charName.getText());
-                System.out.println(character.getName());
+                character.setRace((String)gui.raceBox.getSelectedItem());
+                character.updateScores();
+
+                JOptionPane.showMessageDialog(null,character.toString());
             }
-        }); */
+        });
     }
 
 
@@ -60,7 +85,6 @@ public class CharacterSheetBuilder implements ActionListener {
 
         for (int x = 0; x < rolls.length; x++) {
             rolls[x] = rand.nextInt(6) + 1;
-            System.out.println(rolls[x]);
         }
 
         //selection sort code here
@@ -77,7 +101,6 @@ public class CharacterSheetBuilder implements ActionListener {
         }
 
         int stat = (rolls[0] + rolls[1] + rolls[2]);
-        System.out.println(stat);
         return stat;
     }
 
