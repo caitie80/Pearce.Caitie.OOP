@@ -71,6 +71,16 @@ public class CharacterSheetBuilder implements ActionListener {
                 character.setName(gui.charName.getText());
                 character.setRace((String)gui.raceBox.getSelectedItem());
                 character.updateScores();
+                gui.chooseClass();
+
+
+            }
+        });
+
+        gui.confirmClass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                character.setCclass(gui.classBox.getSelectedItem().toString());
 
                 JOptionPane.showMessageDialog(null,character.toString());
             }

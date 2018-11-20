@@ -9,6 +9,10 @@ public class Stat {
         this.name=name;
     }
 
+    public int getModifier() {
+        return modifier;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

@@ -3,6 +3,10 @@ import java.awt.*;
 
 public class MyMenu extends JFrame{
 
+    JComboBox classBox;
+    String[] classChoices = {"Barbarian","Cleric","Druid"};
+    JButton confirmClass;
+    JButton confirmSkills;
 
     JTextField charName;
     JButton details;
@@ -33,6 +37,10 @@ public class MyMenu extends JFrame{
 
         //Ability components
         submitScore = new JButton("Confirm");
+
+        //Class components
+        confirmClass = new JButton("Confirm Class");
+        confirmSkills = new JButton("Confirm Skill");
 
         //details components
         details = new JButton("Name Character");
@@ -102,6 +110,19 @@ public class MyMenu extends JFrame{
         add(race);
         add(raceBox);
         add(details);
+        this.repaint();
+        this.setVisible(true);
+    }
+
+    public void chooseClass(){
+        this.getContentPane().removeAll();
+        classBox = new JComboBox(classChoices);
+
+        add(classBox);
+        add(confirmClass);
+
+
+
         this.repaint();
         this.setVisible(true);
     }

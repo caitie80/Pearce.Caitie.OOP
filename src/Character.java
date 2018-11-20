@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Character {
     private Stat strength;
     private Stat dex;
@@ -5,10 +7,34 @@ public class Character {
     private Stat intel;
     private Stat wis;
     private Stat cha;
+
+    private int acrobatics;
+    private int animalHandling;
+    private int arcana;
+    private int athletics;
+    private int deception;
+    private int history;
+    private int insight;
+    private int intimidation;
+    private int investigation;
+    private int medicine;
+    private int nature;
+    private int perception;
+    private int performance;
+    private int persuasion;
+    private int religion;
+    private int sleightOfHand;
+    private int stealth;
+    private int survival;
+
     private String name;
+    private ArrayList<String> profSkills ;
+    private int profBonus;
     private Race race;
+    private CharacterClass cclass;
 
     public Character(){
+        profBonus = 2;
         strength = new Stat("Strength");
         dex = new Stat("Dexterity");
         con = new Stat("Constitution");
@@ -17,6 +43,7 @@ public class Character {
         cha = new Stat("Charisma");
         name = "";
         race = new Race();
+        cclass = new CharacterClass();
     }
 
     public Stat getStrength() {
@@ -76,6 +103,22 @@ public class Character {
         this.name = name;
     }
 
+    public int getProfBonus() {
+        return profBonus;
+    }
+
+    public void setProfBonus(int profBonus) {
+        this.profBonus = profBonus;
+    }
+
+    public CharacterClass getCclass() {
+        return cclass;
+    }
+
+    public void setCclass(String cclass) {
+        this.cclass = new CharacterClass(cclass);
+    }
+
     public void setRace(String name){
         race = new Race(name);
     }
@@ -88,12 +131,120 @@ public class Character {
         wis.setStat(wis.getStat() + this.race.getWisMod());
         cha.setStat(cha.getStat() + this.race.getCharMod());
     }
+    
+    public void updateStrengthSkills(){
+        this.athletics = this.strength.getModifier();
+
+        for (String ps: profSkills) {
+            if(ps.toLowerCase().equals("athletics")){
+                this.athletics += profBonus;
+            }
+        }
+    }
+
+    public void updateDexSkills(){
+        this.acrobatics = this.dex.getModifier();
+        this.sleightOfHand = this.dex.getModifier();
+        this.stealth = this.dex.getModifier();
+
+        for (String ps: profSkills) {
+            if(ps.toLowerCase().equals("acrobatics")){
+                this.acrobatics += profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("sleight of hand")){
+                this.sleightOfHand += profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("stealth")){
+                this.sleightOfHand += profBonus;
+            }
+        }
+
+    }
+
+    public void updateIntSkills(){
+        this.arcana = this.intel.getModifier();
+        this.history = this.intel.getModifier();
+        this.investigation = this.intel.getModifier();
+        this.nature = this.intel.getModifier();
+        this.religion = this.intel.getModifier();
+
+        for (String ps: profSkills) {
+            if(ps.toLowerCase().equals("arcana")){
+                this.arcana += profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("investigation")){
+                this.investigation += profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("nature")){
+                this.nature += profBonus;
+            }
+            else if(ps.toLowerCase().equals("religion")){
+                this.religion += profBonus;
+            }
+        }
+    }
+
+    public void updateWisSkills(){
+        this.animalHandling = this.wis.getModifier();
+        this.insight = this.wis.getModifier();
+        this.medicine = this.wis.getModifier();
+        this.perception = this.wis.getModifier();
+        this.survival = this.wis.getModifier();
+
+        for (String ps: profSkills) {
+            if(ps.toLowerCase().equals("animal handling")){
+                this.animalHandling += profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("insight")){
+                this.insight += profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("medicine")){
+                this.medicine += profBonus;
+            }
+            else if(ps.toLowerCase().equals("perception")){
+                this.perception += profBonus;
+            }
+            else if(ps.toLowerCase().equals("survival")){
+                this.survival += profBonus;
+            }
+        }
+    }
+
+    public void updateChaSkills(){
+      this.deception = this.cha.getModifier();
+      this.intimidation = this.cha.getModifier();
+      this.performance = this.cha.getModifier();
+      this.persuasion = this.cha.getModifier();
+
+        for (String ps: profSkills) {
+            if(ps.toLowerCase().equals("deception")){
+                this.deception += this.profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("intimidation")){
+                this.intimidation += this.profBonus;
+            }
+
+            else if(ps.toLowerCase().equals("performance")){
+                this.performance += this.profBonus;
+            }
+            else if(ps.toLowerCase().equals("persuasion")){
+                this.persuasion += this.profBonus;
+            }
+        }
+    }
 
     public String toString(){
         String text;
-        text = String.format("Name: %s\n%s\n%s\n%s\n%s\n%s\n%s\n%s",
-                name,strength.toString(),dex.toString(),con.toString(),
-                intel.toString(),wis.toString(),cha.toString(),race.toString());
+        text = String.format("Name: %s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s",
+                name,race.toString(),cclass.toString(),strength.toString(),dex.toString(),con.toString(),
+                intel.toString(),wis.toString(),cha.toString());
 
         return text;
     }

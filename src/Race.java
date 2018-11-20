@@ -119,7 +119,7 @@ public class Race {
     }
 
     public String toString(){
-        String text = String.format("Race: %s\nSize: %s\nSpeed: %dft\nHeight: %s" +
+        String text = String.format("\nRace: %s\nSize: %s\nSpeed: %dft\nHeight: %s" +
                 "\nWeight: %dlbs",this.name,this.size,this.speed,Race.toFeetAndInches(this.height),
                 this.weight);
         return text;
