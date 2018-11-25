@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class Character implements Serializable {
+public class Character implements Serializable, SkillsUpdatable {
     private static final long serialversionUID =
             129348938L;
 
