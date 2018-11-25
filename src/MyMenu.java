@@ -1,12 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class MyMenu extends JFrame{
+
+    //JButton menu;
 
     JComboBox classBox;
     String[] classChoices = {"Barbarian","Cleric","Druid"};
     JButton confirmClass;
+
+    JComboBox skillsBox;
     JButton confirmSkills;
+    int skillsClicks;
+
+    JPanel charInfo;
+    JPanel skillInfo;
+    JPanel statInfo;
+    JButton save;
 
     JTextField charName;
     JButton details;
@@ -20,10 +31,12 @@ public class MyMenu extends JFrame{
     JButton submitScore;
     JLabel ability;
     String[] abilities = {"Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"};
-    int clicks;
+    int scoreClicks;
 
     JButton create;
     JButton load;
+    JPanel menu;
+    JButton menuButton;
 
     public MyMenu()
     {
@@ -38,6 +51,10 @@ public class MyMenu extends JFrame{
         //Ability components
         submitScore = new JButton("Confirm");
 
+        //save button
+        save = new JButton("Save");
+        menuButton = new JButton("Back to menu");
+
         //Class components
         confirmClass = new JButton("Confirm Class");
         confirmSkills = new JButton("Confirm Skill");
@@ -47,24 +64,37 @@ public class MyMenu extends JFrame{
         charName = new JTextField(35);
         raceBox = new JComboBox(raceChoices);
 
+        menu = new JPanel();
+        menu.setLayout(new FlowLayout());
+
         create = new MyButton("Create a character");
-        this.add(create);
+        menu.add(create);
 
         load = new MyButton("Load a character");
         load.setBackground(Color.BLACK);
         load.setForeground(Color.WHITE);
-        load.addActionListener(e -> {
-            System.out.println("load pressed");
-        });
-        this.add(load);
+
+        menu.add(load);
+
+        this.setContentPane(menu);
 
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
+        try {
+            //icon code
+            URL iconURL = getClass().getResource("Resources/icon.png");
+            // iconURL is null when not found
+            ImageIcon icon = new ImageIcon(iconURL);
+            setIconImage(icon.getImage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void createCharacter(){
-        clicks=0;
+        scoreClicks=0;
         this.setTitle("Create a character");
         this.getContentPane().removeAll();
         this.repaint();
@@ -124,6 +154,98 @@ public class MyMenu extends JFrame{
 
 
         this.repaint();
+        this.setVisible(true);
+    }
+    public void chooseSkills(String[] choices){
+        this.getContentPane().removeAll();
+        skillsBox = new JComboBox(choices);
+        skillsClicks = 0;
+
+        add(skillsBox);
+
+        add(confirmSkills);
+
+
+
+        this.repaint();
+        this.setVisible(true);
+    }
+
+    public void showCharacter(Character c){
+        this.getContentPane().removeAll();
+
+        charInfo = new JPanel();
+        charInfo.setMinimumSize(new Dimension(400,400));
+        JTextArea info = new JTextArea(c.infoToString(),25,30);
+        info.setEditable(false);
+        charInfo.add(info);
+
+        skillInfo = new JPanel();
+        skillInfo.setMinimumSize(new Dimension(400,400));
+        JTextArea stats = new JTextArea(c.statsToString(),25,30);
+        stats.setEditable(false);
+        skillInfo.add(stats);
+
+        statInfo = new JPanel();
+        statInfo.setMinimumSize(new Dimension(400,400));
+        JTextArea skills = new JTextArea(c.skillsToString(),25,30);
+        skills.setEditable(false);
+        statInfo.add(skills);
+
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.add("Info",charInfo);
+
+        tabs.add("Stats",statInfo);
+
+        tabs.add("Skills",skillInfo);
+
+        this.setMaximumSize(new Dimension(400,600));
+
+        this.setTitle(c.getName() + " Info");
+        this.add(tabs);
+        this.getContentPane().add(save);
+        //this.getContentPane().add(menu);
+        this.repaint();
+        pack();
+        this.setVisible(true);
+    }
+
+    public void showLoadedCharacter(Character c){
+        this.getContentPane().removeAll();
+
+        charInfo = new JPanel();
+        charInfo.setMinimumSize(new Dimension(400,400));
+        JTextArea info = new JTextArea(c.infoToString(),25,30);
+        info.setEditable(false);
+        charInfo.add(info);
+
+        skillInfo = new JPanel();
+        skillInfo.setMinimumSize(new Dimension(400,400));
+        JTextArea stats = new JTextArea(c.statsToString(),25,30);
+        stats.setEditable(false);
+        skillInfo.add(stats);
+
+        statInfo = new JPanel();
+        statInfo.setMinimumSize(new Dimension(400,400));
+        JTextArea skills = new JTextArea(c.skillsToString(),25,30);
+        skills.setEditable(false);
+        statInfo.add(skills);
+
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.add("Info",charInfo);
+
+        tabs.add("Stats",statInfo);
+
+        tabs.add("Skills",skillInfo);
+
+        this.setMaximumSize(new Dimension(400,600));
+
+        this.setTitle(c.getName() + " Info");
+        this.add(tabs);
+        //this.getContentPane().add(save);
+        this.getContentPane().add(menuButton);
+        this.repaint();
+        pack();
         this.setVisible(true);
     }
 

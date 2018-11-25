@@ -1,4 +1,6 @@
-public class CharacterClass {
+import java.io.Serializable;
+
+public class CharacterClass  implements Serializable {
     private String name;
     private int hitDice;
     private String[] skills;
@@ -30,6 +32,10 @@ public class CharacterClass {
             name  ="unknown";
             hitDice = 0;
         }
+    }
+
+    public String[] getSkills(){
+        return skills;
     }
 
     public String toString(){

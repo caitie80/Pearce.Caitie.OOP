@@ -1,6 +1,10 @@
+import java.io.*;
 import java.util.ArrayList;
 
-public class Character {
+public class Character implements Serializable {
+    private static final long serialversionUID =
+            129348938L;
+
     private Stat strength;
     private Stat dex;
     private Stat con;
@@ -44,6 +48,7 @@ public class Character {
         name = "";
         race = new Race();
         cclass = new CharacterClass();
+        profSkills = new ArrayList<String>();
     }
 
     public Stat getStrength() {
@@ -121,6 +126,10 @@ public class Character {
 
     public void setRace(String name){
         race = new Race(name);
+    }
+
+    public void setProfSkills(String skill){
+        this.profSkills.add(skill);
     }
 
     public void updateScores(){
@@ -240,12 +249,78 @@ public class Character {
         }
     }
 
-    public String toString(){
+    public String statsToString(){
         String text;
-        text = String.format("Name: %s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s",
-                name,race.toString(),cclass.toString(),strength.toString(),dex.toString(),con.toString(),
+        text = String.format("%s\n%s\n%s\n%s\n%s\n%s\n",strength.toString(),dex.toString(),con.toString(),
                 intel.toString(),wis.toString(),cha.toString());
-
         return text;
+    }
+
+    public String skillsToString(){
+        String text = "";
+        text += "Acrobatics: " + acrobatics;
+        text += "\nAnimal Handling: " + animalHandling;
+        text += "\nArcana: " + arcana;
+        text += "\nAthletics: " + athletics;
+        text += "\nDeception: " + deception;
+        text += "\nHistory: " + history;
+        text += "\nInsight: " + insight;
+        text += "\nIntimidation: " + intimidation;
+        text += "\nInvestigation: " + investigation;
+        text += "\nMedicine: " + medicine;
+        text += "\nNature: " + nature;
+        text += "\nPerception: " + perception;
+        text += "\nPerformance: " + performance;
+        text += "\nPersuasion: " + persuasion;
+        text += "\nReligion: " + religion;
+        text += "\nSlight of Hand: " + sleightOfHand;
+        text += "\nStealth: " + stealth;
+        text += "\nSurvival: " + survival;
+
+        text+="\nProficiencies:";
+
+        for (String skill: profSkills) {
+            text+="\n-" + skill;
+        }
+        return text;
+    }
+
+    public String infoToString(){
+        String text;
+        text = String.format("Name: %s\n%s\n%s",
+                name,race.toString(),cclass.toString());
+           return text;
+    }
+
+    public void saveCharacter(){
+        try{
+            FileOutputStream fileOut = new FileOutputStream(this.getName() + "character.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static Character loadCharacter(File c){
+        Character chara = null;
+        try{
+            FileInputStream fileIn = new FileInputStream(c);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            chara = (Character) in.readObject();
+            in.close();
+            fileIn.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return chara;
+
     }
 }

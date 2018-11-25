@@ -1,18 +1,18 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
-public class CharacterSheetBuilder implements ActionListener {
+public class CharacterSheetBuilder {
     public static void main(String[] args) {
         MyMenu gui = new MyMenu();
         Character character = new Character();
 
-
-
         gui.create.addActionListener(e -> {
-            System.out.println("create pressed");
-
             gui.createCharacter();
         });
 
@@ -20,8 +20,8 @@ public class CharacterSheetBuilder implements ActionListener {
         gui.submitScore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               if(gui.clicks<6) {
-                    switch (gui.clicks) {
+               if(gui.scoreClicks<6) {
+                    switch (gui.scoreClicks) {
 
                         case 0:
                             character.setStrength((int) gui.statScores.getSelectedItem());
@@ -51,20 +51,19 @@ public class CharacterSheetBuilder implements ActionListener {
                         case 5:
                             character.setCha((int) gui.statScores.getSelectedItem());
                             gui.statScores.removeItemAt(gui.statScores.getSelectedIndex());
-                            System.out.println("scores done");
                             gui.addDetails();
                             break;
                     }
-                   if(gui.clicks<5) {
-                       gui.ability.setText(gui.abilities[gui.clicks + 1]);
+                   if(gui.scoreClicks<5) {
+                       gui.ability.setText(gui.abilities[gui.scoreClicks + 1]);
                        gui.repaint();
                    }
-                   gui.clicks++;
+                   gui.scoreClicks++;
                 }
             }
 
         });
-
+        //button for name and race
         gui.details.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,12 +76,80 @@ public class CharacterSheetBuilder implements ActionListener {
             }
         });
 
+        //button for choosing class
         gui.confirmClass.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 character.setCclass(gui.classBox.getSelectedItem().toString());
 
-                JOptionPane.showMessageDialog(null,character.toString());
+                gui.chooseSkills(character.getCclass().getSkills());
+            }
+        });
+
+        //button for choosing skill proficiencies
+        gui.confirmSkills.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(gui.skillsClicks<2){
+                    character.setProfSkills((String)gui.skillsBox.getSelectedItem());
+                    gui.skillsBox.removeItemAt(gui.skillsBox.getSelectedIndex());
+                    gui.skillsClicks++;
+                }
+                if(gui.skillsClicks == 2){
+                    character.updateChaSkills();
+                    character.updateDexSkills();
+                    character.updateIntSkills();
+                    character.updateStrengthSkills();
+                    character.updateWisSkills();
+
+                    gui.showCharacter(character);
+                }
+
+
+            }
+        });
+
+        gui.save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                character.saveCharacter();
+            }
+        });
+
+        gui.load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JFileChooser chooser = new JFileChooser();
+                File location =new File("C:\\Users\\Caitie\\IdeaProjects\\Pearce.Caitie.OOP");
+                chooser.setCurrentDirectory(location);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Characters", "ser");
+                chooser.setFileFilter(filter);
+
+                int returnVal = chooser.showOpenDialog(gui);
+                if(returnVal == JFileChooser.APPROVE_OPTION)
+                {
+                    Character n= Character.loadCharacter(chooser.getSelectedFile());
+
+                    gui.showLoadedCharacter(n);
+
+                    //gui.removeAll();
+                    //gui.add(gui.menu);
+                }
+            }
+        });
+
+        gui.menuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gui.getContentPane().removeAll();
+                //gui.setContentPane(gui.menu);
+                gui.add(gui.create);
+                gui.add(gui.load);
+
+                gui.repaint();
+                gui.pack();
+                gui.setVisible(true);
             }
         });
     }
@@ -114,8 +181,4 @@ public class CharacterSheetBuilder implements ActionListener {
         return stat;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }

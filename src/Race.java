@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Random;
 
-public class Race {
+public class Race  implements Serializable {
     private String name;
     private String size;
     private int speed;
